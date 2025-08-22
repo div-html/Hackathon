@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chat UI</title>
     <link rel="icon" type="image/png" href="Favicon1 (1).png">
+   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         * {
             margin: 0;
@@ -253,14 +254,20 @@
         </div>
     </div>
 <script>
+    // This mockData array is no longer used by the new createChart function
+    const mockData = [
+        { year: 2000, emissions: 25.2 },
+        { year: 2001, emissions: 26.0 },
+        { year: 2002, emissions: 26.8 },
+        // ... (rest of the data)
+    ];
+
     async function sendMessage() {
         const input = document.getElementById("user-input");
         const msg = input.value.trim();
         if (msg === "") return;
 
         const chatBox = document.getElementById("chat-messages");
-
-        // Add user message
         const userMsg = document.createElement("div");
         userMsg.classList.add("message", "user");
         userMsg.innerText = msg;
@@ -269,7 +276,6 @@
 
         input.value = "";
 
-        // --- Add Typing Indicator ---
         const typingIndicator = document.createElement("div");
         typingIndicator.classList.add("message", "assistant", "typing");
         typingIndicator.innerHTML = '<div class="circle"></div> Assistant is typing...';
@@ -277,37 +283,151 @@
         chatBox.scrollTop = chatBox.scrollHeight;
 
         try {
-            const response = await fetch("http://127.0.0.1:5000/ask", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ message: msg })
-            });
+            // The fetch call to the backend is commented out, so the chat will not connect to a server.
+            // if you uncomment this, the chatbot will send messages to the backend
+            // const response = await fetch("http://127.0.0.1:5000/ask", {
+            //     method: "POST",
+            //     headers: { "Content-Type": "application/json" },
+            //     body: JSON.stringify({ message: msg })
+            // });
+            // const data = await response.json();
 
-            const data = await response.json();
-            console.log("Response from backend:", data.reply);
+            // The code below now handles the message directly on the client side.
+            if (processChatMessage(msg)) {
+                chatBox.removeChild(typingIndicator);
+                return; // Chart request was handled
+            }
 
-            // Remove typing indicator
+            // Show a default response if not a chart request
             chatBox.removeChild(typingIndicator);
-
-            // Show assistant reply
             const assistantMsg = document.createElement("div");
             assistantMsg.classList.add("message", "assistant");
-            assistantMsg.innerText = data.reply || "No response from server.";
+            assistantMsg.innerText = "No response from server. Try asking for a chart!";
             chatBox.appendChild(assistantMsg);
             chatBox.scrollTop = chatBox.scrollHeight;
+
         } catch (err) {
             console.error("Error:", err);
-
-            // Remove typing indicator
             chatBox.removeChild(typingIndicator);
-
-            // Show error message
             const errorMsg = document.createElement("div");
             errorMsg.classList.add("message", "assistant");
-            errorMsg.innerText = "⚠ Error connecting to server.";
+            errorMsg.innerText = "⚠ Error connecting to server or processing message.";
             chatBox.appendChild(errorMsg);
             chatBox.scrollTop = chatBox.scrollHeight;
         }
+    }
+
+    // This function now generates a bar chart from the hardcoded data inside createChart()
+    function generateEmissionsChart() {
+        displayChatMessage('bot', 'Generating fossil fuel consumption chart... 📊');
+        
+        const chartId = 'chart-' + Date.now();
+        const chartHTML = `
+            <div class="chart-container" style="margin: 20px 0; padding: 20px; background: #1a1a2e; border-radius: 10px;">
+                <h3 style="color: #4fc3f7; text-align: center; margin-bottom: 20px;">
+                    Share of Global Fossil Fuel Consumption
+                </h3>
+                <canvas id="${chartId}" style="max-height: 400px;"></canvas>
+            </div>
+        `;
+        
+        displayChatMessage('bot', chartHTML, true);
+        
+        // Note: The mockData variable is no longer passed to this function
+        createChart(chartId);
+    }
+
+    // This function now creates a bar chart with hardcoded data
+    function createChart(canvasId) {
+        const ctx = document.getElementById(canvasId);
+        
+        new Chart(ctx, {
+            type: 'line', // changed to a bar chart
+            data: {
+                labels: ['2000', '2001', '2002', '2003','2004','2005','2006','2007','2008','2009','2010','2011','2012','2013','2014'],
+                datasets: [{
+                    label: 'Fuel Emission  (in %)',
+                    data: [20000, 25000,30000, 350000], // hardcoded data points
+                    borderColor: '#FFFFFF', // Set the line color to white
+                    backgroundColor: 'rgba(255, 255, 255, 0.2)', // Semi-transparent white fill
+                    pointBackgroundColor: '#FFFFFF', // Set the data points' background to white
+                    pointBorderColor: '#FFFFFF', // Set the data points' border to white
+                    fill: true, // Enable filling the area under the line
+                    tension: 0.4 // Makes the 
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                        labels: { color: '#e6edf3' }
+                    },
+                    title: {
+                        display: true,
+                        text: 'Share of Global Fossil Fuel Consumption',
+                        color: '#58a6ff'
+                    }
+                },
+                scales: {
+                    x: {
+                        position:'bottom',
+                        ticks: { color: '#e6edf3' },
+                        title: {
+                     display: true,
+                    text: 'Years ➡️', // Your desired label here
+                    color: '#e6edf3'
+        }
+                    },
+                    y: {
+                        position:'left',
+                        ticks: { color: '#e6edf3' },
+                        title:{
+                            display:true,
+                            text:'Fuel-emission Data ➡️',
+                            color:'#e6edf3'
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    function processChatMessage(userMessage) {
+        const message = userMessage.toLowerCase();
+        
+        const chartKeywords = [
+            'generate chart', 'show chart', 'emissions chart', 
+            'co2 chart', 'carbon emissions', 'emissions data',
+            'climate chart', 'emissions graph', 'show emissions',
+            'generate graph', 'emission trends'
+        ];
+        
+        const wantsChart = chartKeywords.some(keyword => 
+            message.includes(keyword)
+        );
+        
+        if (wantsChart) {
+            generateEmissionsChart();
+            return true;
+        }
+        
+        return false;
+    }
+
+    function displayChatMessage(sender, content, isHTML = false) {
+        const chatContainer = document.getElementById('chat-messages');
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `message ${sender}-message`;
+        
+        if (isHTML) {
+            messageDiv.innerHTML = content;
+        } else {
+            messageDiv.textContent = content;
+        }
+        
+        chatContainer.appendChild(messageDiv);
+        chatContainer.scrollTop = chatContainer.scrollHeight;
     }
 
     function toggleTheme() {
@@ -326,4 +446,5 @@
 </script>
 </body>
 </html>
+
 
