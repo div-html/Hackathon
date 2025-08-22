@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Climate Change Homepage</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Arial, sans-serif;
+      background-color: #0E0E11;
+      color: white;
+    }
+
+    /* Navbar */
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background-color: #161b22;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      z-index: 1000;
+      color: #58a6ff;
+       box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+    }
+
+    .navbar-left span {
+      color: #58a6ff;
+      font-weight: 700;
+      font-size: 1.5rem;
+      margin-left: 12rem;
+    }
+
+    .navbar-links {
+      display: flex;
+      gap: 12px;
+    }
+
+    .navbar-links a {
+      color: #8b949e;
+      text-decoration: none;
+      padding: 6px 12px;
+      border-radius: 6px;
+      margin-right: 25px;
+      transition: background 0.3s;
+    }
+
+    .navbar-links a:hover {
+      color: #58a6ff;
+    }
+
+    /* Hero Section */
+    .hero {
+      position: relative;
+      height: 80vh;
+      background: url("https://images.unsplash.com/photo-1615053835734-7752878e939e?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8Y28yJTIwZW1pc3Npb25zfGVufDB8fDB8fHww") no-repeat center center/cover;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 60px;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.5);
+    }
+
+    .hero h1 {
+      position: relative;
+      font-size: 4rem;
+      color: #5dade2; /* highlight blue */
+      z-index: 1;
+    }
+
+    /* Overview Section */
+    .overview {
+      padding: 60px 20px;
+      max-width: 1000px;
+      margin: auto;
+      text-align: center;
+    }
+
+    .overview h2 {
+      font-size: 2rem;
+      margin-bottom: 20px;
+      color: #5dade2;
+    }
+
+    .overview-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      background-color: #1E1E24;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.5);
+      text-align: left;
+      transition: transform 0.3s;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+    }
+
+    .card h3 {
+      color: #58a6ff;
+      margin-bottom: 10px;
+    }
+
+    .card p {
+      font-size: 14px;
+      line-height: 1.5;
+      color: #ccc;
+    }
+
+    .card a {
+      display: inline-block;
+      margin-top: 10px;
+      color: #5dade2;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .card a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <div class="navbar">
+    <div class="navbar-left"><span>Patutaa Project</span></div>
+    <div class="navbar-links">
+      <a href="home.html">Home</a>
+      <a href="impacts.html">Impacts</a>
+      <a href="emission.html">Emissions</a>
+      <a href="index2.html">Chatbot</a>
+    </div>
+  </div>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <h1>Climate Change</h1>
+  </section>
+
+  <!-- Overview Section -->
+  <section class="overview">
+    <h2>Overview</h2>
+    <div class="overview-cards">
+
+      <div class="card">
+        <h3>Impacts</h3>
+        <p>Climate change affects weather patterns, sea levels, and biodiversity. Explore how rising temperatures impact our planet and society.</p>
+        <a href="impacts.html">Learn More →</a>
+      </div>
+
+      <div class="card">
+        <h3>Emissions</h3>
+        <p>Greenhouse gases are driving climate change. Check out emission trends from 2000 to 2023 and understand their global impact.</p>
+        <a href="emission.html">View Emissions →</a>
+      </div>
+
+      <div class="card">
+        <h3>Chatbot</h3>
+        <p>Talk to our AI-powered chatbot to ask questions, get insights, and explore solutions for tackling climate change in real-time.</p>
+        <a href="index2.html">Try Chatbot →</a>
+      </div>
+
+    </div>
+  </section>
+
+</body>
+</html>
