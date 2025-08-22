@@ -1,0 +1,202 @@
+<!-- analysis.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Analysis - Fossil Fuel Data</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    *{
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      background: #0d1117;
+      color: #e6edf3;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+    }
+
+    header {
+      background: #161b22;
+      padding: 1rem 2rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.6);
+    }
+
+    nav {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      color: #58a6ff;
+      font-weight: 700;
+      font-size: 1.5rem;
+    }
+
+    ul.nav-links {
+      display: flex;
+      list-style: none;
+    }
+
+    ul.nav-links li {
+      margin-left: 2rem;
+    }
+
+    ul.nav-links li a {
+      color: #8b949e;
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    ul.nav-links li a:hover,
+    ul.nav-links li a.active {
+      color: #58a6ff;
+    }
+
+    /* Chart container */
+    .container {
+      max-width: 900px;
+      margin: 40px auto;
+      background: #161b22;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.4);
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #58a6ff;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header/Navbar -->
+  <header>
+    <nav>
+      <div class="logo">Patutaa Project</div>
+      <ul class="nav-links">
+        <li><a href="home.html">Home</a></li>
+        <li><a href="impacts.html">Impacts</a></li>
+        <li><a href="analysis.html" class="active">Analysis</a></li>
+        <li><a href="emission.html">Emissions</a></li>
+        <li><a href="index2.html">Chatbot</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Chart Section -->
+  <div class="container">
+    <h2>Global Fossil Fuel Consumption (Example Data)</h2>
+    <canvas id="fossilChart"></canvas>
+  </div>
+
+  <script>
+    const ctx = document.getElementById('fossilChart');
+
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ['Coal', 'Oil', 'Natural Gas', 'Others'],
+        datasets: [{
+          label: 'Energy Consumption (in %)',
+          data: [27, 33, 24, 16],
+          backgroundColor: ['#4e79a7','#f28e2c','#e15759','#76b7b2']
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            position: 'top',
+            labels: { color: '#e6edf3' }
+          },
+          title: {
+            display: true,
+            text: 'Share of Global Fossil Fuel Consumption',
+            color: '#58a6ff'
+          }
+        },
+        scales: {
+          x: {
+            ticks: { color: '#e6edf3' }
+          },
+          y: {
+            ticks: { color: '#e6edf3' }
+          }
+        }
+      }
+    });
+  </script>
+  <div class="container">
+  <h2>CO₂ Emissions Over Time (2000–2023)</h2>
+  <canvas id="emissionChart"></canvas>
+</div>
+
+<script>
+  const ctx2 = document.getElementById('emissionChart');
+
+  new Chart(ctx2, {
+    type: 'line',
+    data: {
+      labels: [
+        2000, 2001, 2002, 2003, 2004, 2005, 
+        2006, 2007, 2008, 2009, 2010, 2011,
+        2012, 2013, 2014, 2015, 2016, 2017, 
+        2018, 2019, 2020, 2021, 2022, 2023
+      ],
+      datasets: [{
+        label: 'Global CO₂ Emissions (in Gt)',
+        data: [
+          25, 26, 27, 28, 29, 30, 
+          31, 32, 32, 31, 34, 35,
+          36, 36, 37, 38, 38, 39,
+          40, 41, 39, 42, 43, 44
+        ],
+        borderColor: '#58a6ff',
+        backgroundColor: 'rgba(88, 166, 255, 0.2)',
+        borderWidth: 2,
+        pointRadius: 4,
+        tension: 0.3, // smooth curve
+        fill: true
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: {
+          position: 'top'
+        },
+        title: {
+          display: true,
+          text: 'Global CO₂ Emissions Trend (2000–2023)'
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: false,
+          title: {
+            display: true,
+            text: 'Emissions (Gigatonnes)'
+          }
+        },
+        x: {
+          title: {
+            display: true,
+            text: 'Year'
+          }
+        }
+      }
+    }
+  });
+</script>
+
+
+</body>
+</html>
